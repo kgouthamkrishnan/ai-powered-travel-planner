@@ -6,39 +6,49 @@ load_dotenv()
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
+# =====================================================
+# GET WEATHER
+# =====================================================
+
 def get_weather(city):
 
     try:
 
-        url = "https://api.openweathermap.org/data/2.5/weather"
+        url = (
+            f"https://api.openweathermap.org/data/2.5/weather?"
+            f"q={city}"
+            f"&appid={API_KEY}"
+            f"&units=metric"
+        )
 
-        params = {
-            "q": city,
-            "appid": API_KEY,
-            "units": "metric"
-        }
-
-        response = requests.get(url, params=params)
+        response = requests.get(url)
 
         data = response.json()
 
-        if data.get("cod") != 200:
-            return "Weather data not found"
+        # TEMPERATURE
 
-        temp = data["main"]["temp"]
-        humidity = data["main"]["humidity"]
-        description = data["weather"][0]["description"]
+        temperature = data["main"]["temp"]
 
-        weather_report = f"""
-🌡 Temperature: {temp}°C
+        # WEATHER CONDITION
 
-💧 Humidity: {humidity}%
+        condition = data["weather"][0]["main"]
 
-☁ Condition: {description}
-"""
+        # WIND SPEED
 
-        return weather_report
+        wind_speed = data["wind"]["speed"]
 
-    except Exception as e:
+        # RETURN CLEAN DICTIONARY
 
-        return f"Weather Error: {e}"
+        return {
+            "temperature": temperature,
+            "condition": condition,
+            "wind_speed": wind_speed
+        }
+
+    except Exception:
+
+        return {
+            "temperature": "N/A",
+            "condition": "N/A",
+            "wind_speed": "N/A"
+        }

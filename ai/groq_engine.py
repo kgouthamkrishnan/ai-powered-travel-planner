@@ -27,7 +27,7 @@ def ask_ai(prompt):
 
             temperature=0.7,
 
-            max_tokens=800
+            max_tokens=2000
         )
 
         return chat.choices[0].message.content

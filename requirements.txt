@@ -1,6 +1,9 @@
-
 streamlit
 requests
 groq
 python-dotenv
 fpdf
+plotly
+pandas
+folium
+Pillow
