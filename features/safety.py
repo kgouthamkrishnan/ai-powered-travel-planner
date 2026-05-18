@@ -1,8 +1,6 @@
 from ai.groq_engine import ask_ai
 
-# =====================================================
 # SAFETY ENGINE
-# =====================================================
 
 def generate_safety_tips(
     destination,

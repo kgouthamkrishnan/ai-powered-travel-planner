@@ -87,6 +87,21 @@ AI Powered Travel Planner estimates travel expenses and categorizes trips into L
 
 ---
 
+## 📄 AI Travel Report Generation
+
+The platform includes an integrated PDF report generation system that enables users to download complete travel plans for offline access and future reference. The generated report compiles important travel information into a structured and user-friendly document.
+
+The downloadable travel report includes:
+- personalized itinerary details
+- destination overview
+- AI-generated recommendations
+- travel safety guidance
+- tourism insights and planning information
+
+This feature enhances the practical usability of the application by allowing travelers to store, share, and access their travel plans conveniently during their journey.
+
+---
+
 ## 💬 AI Travel Chatbot
 
 An integrated AI chatbot assists users through conversational interactions. Travelers can ask questions related to attractions, nearby places, transport, restaurants, travel safety, and tourism assistance in real time.

@@ -25,9 +25,7 @@ from apis.hotel_api import search_accommodations
 from ai.groq_engine import ask_ai
 
 
-# =====================================================
 # PDF EXPORT GENERATOR WITH ACCENT REPLACEMENT
-# =====================================================
 def create_trip_pdf():
     def clean_text(text):
         text = str(text)
@@ -71,9 +69,7 @@ def create_trip_pdf():
     return pdf.output(dest='S').encode('latin-1')
 
 
-# =====================================================
 # STREAMLIT WINDOW & PAGE CONFIGURATION
-# =====================================================
 st.set_page_config(
     page_title="AI Powered Travel Planner",
     layout="wide",
@@ -81,9 +77,7 @@ st.set_page_config(
 )
 
 
-# =====================================================
 # SYSTEM PERSISTENT STATE INITIALIZATION
-# =====================================================
 if "messages" not in st.session_state: st.session_state.messages = []
 if "trip_generated" not in st.session_state: st.session_state.trip_generated = False
 if "itinerary" not in st.session_state: st.session_state.itinerary = ""
@@ -99,9 +93,7 @@ if "accommodations" not in st.session_state: st.session_state.accommodations = N
 if "saved_destination" not in st.session_state: st.session_state.saved_destination = ""
 
 
-# =====================================================
 # CUSTOM CSS CODE (TOP CHAT INPUT WITH NEON FIX)
-# =====================================================
 st.markdown("""
 <style>
 html, body, [class*="css"] {
@@ -250,9 +242,9 @@ label { display: none !important; }
 .feature-text { font-weight: 500; font-size: 14px; line-height: 1.2; }
 .feature-text span { font-size: 12px; color: #64748b; display: block; }
 
-/* =====================================================
-   CLEAN FIXED TOP CHAT DESIGN
-   ===================================================== */
+
+   #CHAT DESIGN
+
 .chat-container {
     background: transparent !important;
     border: none !important;
@@ -331,9 +323,7 @@ div[data-testid="stChatInput"] textarea {
 """, unsafe_allow_html=True)
 
 
-# =====================================================
 # RENDER HEADER NAVIGATION BAR CONTROL
-# =====================================================
 st.markdown("""
 <div class="nav-container">
     <div class="brand-title">🌏 AI Powered Travel Planner ✨</div>
@@ -348,9 +338,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# =====================================================
 # DYNAMIC UI MATRIX LAYER SWITCHER
-# =====================================================
 if not st.session_state.trip_generated:
     
     left, right = st.columns([3.8, 1.8], gap="large")
@@ -410,12 +398,12 @@ if not st.session_state.trip_generated:
     with right:
         st.markdown('<div class="chat-container">', unsafe_allow_html=True)
         
-        # 1. Chat Input Field (ALWAYS REMAIN AT THE ABSOLUTE TOP)
+        # 1. Chat Input Field 
         st.markdown('<div class="chat-input-wrapper">', unsafe_allow_html=True)
         user_query = st.chat_input("Ask any travel question...", key="init_chat")
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # 2. GRADIENT TEXT STYLE HEADING (Matches 'Plan Your Perfect Trip')
+        # 2. GRADIENT TEXT STYLE HEADING 
         st.markdown("""
         <div style="
             text-align: center; 
@@ -439,7 +427,7 @@ if not st.session_state.trip_generated:
             st.session_state.messages.append({"role": "assistant", "content": response_string})
             st.rerun()
 
-        # 3. Chat Data Box Appears BELOW only if messages populate inside session
+        # 3. Chat Data Box 
         if st.session_state.messages:
             st.markdown('<div class="chat-history-box">', unsafe_allow_html=True)
             st.markdown('<div class="chat-top-bar"><div style="font-size:14px; font-weight:600; color:#94a3b8;">Conversation</div><div class="online-indicator">Online</div></div>', unsafe_allow_html=True)
@@ -611,12 +599,12 @@ else:
     with right:
         st.markdown('<div class="chat-container">', unsafe_allow_html=True)
         
-        # 1. Chat Input Field (ALWAYS REMAIN AT THE ABSOLUTE TOP)
+        # 1. Chat Input Field 
         st.markdown('<div class="chat-input-wrapper">', unsafe_allow_html=True)
         user_query = st.chat_input("Ask any travel question...", key="gen_chat")
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # 2. GRADIENT TEXT STYLE HEADING (Matches 'Plan Your Perfect Trip')
+        # 2. GRADIENT TEXT STYLE HEADING 
         st.markdown("""
         <div style="
             text-align: center; 
@@ -640,7 +628,7 @@ else:
             st.session_state.messages.append({"role": "assistant", "content": response_string})
             st.rerun()
 
-        # 3. Chat Data Box Appears BELOW only if messages populate inside session
+        # 3. Chat Data Box 
         if st.session_state.messages:
             st.markdown('<div class="chat-history-box">', unsafe_allow_html=True)
             st.markdown('<div class="chat-top-bar"><div style="font-size:14px; font-weight:600; color:#94a3b8;">Conversation</div><div class="online-indicator">Online</div></div>', unsafe_allow_html=True)

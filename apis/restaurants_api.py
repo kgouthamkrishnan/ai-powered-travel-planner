@@ -7,9 +7,7 @@ load_dotenv()
 
 API_KEY = os.getenv("GEOAPIFY_API_KEY")
 
-# =====================================================
 # GET RESTAURANTS & CAFES
-# =====================================================
 
 def get_restaurants(destination):
 

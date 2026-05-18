@@ -1,8 +1,6 @@
 import random
 
-# =====================================================
 # TRAVEL INSIGHTS ENGINE
-# =====================================================
 
 def generate_travel_insights(style):
 

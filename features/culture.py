@@ -1,8 +1,6 @@
 from ai.groq_engine import ask_ai
 
-# =====================================================
 # CULTURE ENGINE
-# =====================================================
 
 def generate_culture_info(
     destination,

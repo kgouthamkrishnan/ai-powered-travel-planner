@@ -6,9 +6,7 @@ load_dotenv()
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-# =====================================================
 # GET WEATHER
-# =====================================================
 
 def get_weather(city):
 

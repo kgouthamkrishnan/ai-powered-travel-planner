@@ -1,8 +1,6 @@
 from ai.groq_engine import ask_ai
 
-# =====================================================
 # SMART RECOMMENDATION ENGINE
-# =====================================================
 
 def generate_recommendations(
     destination,

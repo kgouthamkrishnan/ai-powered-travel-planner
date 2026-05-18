@@ -6,9 +6,7 @@ load_dotenv()
 
 API_KEY = os.getenv("GEOAPIFY_API_KEY")
 
-# =====================================================
 # GET PLACE COORDINATES
-# =====================================================
 
 def get_place_coordinates(place):
 
