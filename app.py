@@ -66,7 +66,8 @@ def create_trip_pdf():
     pdf.set_font("Arial", "", 11)
     pdf.multi_cell(0, 8, clean_text(st.session_state.safety_info))
 
-    return pdf.output(dest='S').encode('latin-1')
+    pdf_output = pdf.output(dest='S')
+    return pdf_output
 
 
 # STREAMLIT WINDOW & PAGE CONFIGURATION
