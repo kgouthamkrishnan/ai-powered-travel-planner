@@ -67,6 +67,10 @@ def create_trip_pdf():
     pdf.multi_cell(0, 8, clean_text(st.session_state.safety_info))
 
     pdf_output = pdf.output(dest='S')
+
+    if isinstance(pdf_output, str):
+        pdf_output = pdf_output.encode('latin-1')
+
     return pdf_output
 
 
