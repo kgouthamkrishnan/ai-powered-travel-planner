@@ -13,6 +13,7 @@ from features.recommendations import generate_recommendations
 from features.itinerary import generate_itinerary
 from features.budget import estimate_budget
 from features.chatbot import travel_chat
+from fpdf import FPDF, XPos, YPos
 
 # Importing Backend Live Geolocation/Weather APIs
 from apis.restaurants_api import get_restaurants
@@ -26,7 +27,9 @@ from apis.hotel_api import search_accommodations
 from ai.groq_engine import ask_ai
 
 
-# PDF EXPORT GENERATOR WITH ACCENT REPLACEMENT (STABLE BYTES BUFFER FIX)
+
+# PDF EXPORT GENERATOR WITH ACCENT REPLACEMENT 
+
 def create_trip_pdf():
     def clean_text(text):
         text = str(text)
@@ -36,48 +39,48 @@ def create_trip_pdf():
 
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", "B", 18)
-    pdf.cell(200, 10, "AI Powered Travel Planner Report", ln=True, align="C")
+    
+    # Title Section
+    pdf.set_font("helvetica", "B", 18)
+    pdf.cell(0, 10, "AI Powered Travel Planner Report", new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
     pdf.ln(10)
 
     # 1. OVERVIEW SECTION
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(200, 10, "1. Destination Overview", ln=True)
-    pdf.set_font("Arial", "", 11)
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 10, "1. Destination Overview", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_font("helvetica", "", 11)
     pdf.multi_cell(0, 8, clean_text(st.session_state.overview))
     pdf.ln(5)
 
     # 2. ITINERARY SECTION
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(200, 10, "2. Travel Itinerary Schedule", ln=True)
-    pdf.set_font("Arial", "", 11)
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 10, "2. Travel Itinerary Schedule", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_font("helvetica", "", 11)
     pdf.multi_cell(0, 8, clean_text(st.session_state.itinerary))
     pdf.ln(5)
 
     # 3. RECOMMENDATIONS SECTION
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(200, 10, "3. Smart AI Recommendations", ln=True)
-    pdf.set_font("Arial", "", 11)
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 10, "3. Smart AI Recommendations", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_font("helvetica", "", 11)
     pdf.multi_cell(0, 8, clean_text(st.session_state.recommendations))
     pdf.ln(5)
 
     # 4. SAFETY & GUIDANCE
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(200, 10, "4. Safety & Travel Guidance", ln=True)
-    pdf.set_font("Arial", "", 11)
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 10, "4. Safety & Travel Guidance", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_font("helvetica", "", 11)
     pdf.multi_cell(0, 8, clean_text(st.session_state.safety_info))
 
-    # Safe byte conversion layer matching both fpdf and fpdf2 standard/legacy buffer setups
+    # --- NATIVE CLOUD BUFFER CONVERSION LAYER ---
     try:
-        pdf_output = pdf.output()
-        if isinstance(pdf_output, str):
-            pdf_output = pdf_output.encode('latin-1')
-    except Exception:
-        raw_buffer = pdf.buffer
-        if isinstance(raw_buffer, str):
-            pdf_output = raw_buffer.encode('latin-1')
+        pdf_raw = pdf.output()
+        if isinstance(pdf_raw, (bytes, bytearray)):
+            pdf_output = bytes(pdf_raw)
         else:
-            pdf_output = bytes(raw_buffer)
+            pdf_output = str(pdf_raw).encode('latin-1', errors='ignore')
+    except Exception:
+        pdf_output = bytes(pdf.buffer).encode('latin-1', errors='ignore') if isinstance(pdf.buffer, str) else bytes(pdf.buffer)
 
     return pdf_output
 
