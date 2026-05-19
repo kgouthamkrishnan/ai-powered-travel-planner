@@ -212,7 +212,12 @@ label { display: none !important; }
     padding: 10px 28px !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 15px rgba(217, 70, 239, 0.25);
-    margin-top: 15px;
+
+    margin-top: 15px !important;
+    margin-bottom: 28px !important;
+
+    position: relative;
+    z-index: 10;
 }
 
 /* GRID INFRASTRUCTURE */
