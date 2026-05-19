@@ -3,6 +3,7 @@ import folium
 import plotly.express as px
 import pandas as pd
 from fpdf import FPDF
+import io
 
 # Importing Backend Feature Modules
 from features.culture import generate_culture_info
@@ -25,7 +26,7 @@ from apis.hotel_api import search_accommodations
 from ai.groq_engine import ask_ai
 
 
-# PDF EXPORT GENERATOR WITH ACCENT REPLACEMENT
+# PDF EXPORT GENERATOR WITH ACCENT REPLACEMENT (STABLE BYTES BUFFER FIX)
 def create_trip_pdf():
     def clean_text(text):
         text = str(text)
@@ -66,10 +67,17 @@ def create_trip_pdf():
     pdf.set_font("Arial", "", 11)
     pdf.multi_cell(0, 8, clean_text(st.session_state.safety_info))
 
-    pdf_output = pdf.output(dest='S')
-
-    if isinstance(pdf_output, str):
-        pdf_output = pdf_output.encode('latin-1')
+    # Safe byte conversion layer matching both fpdf and fpdf2 standard/legacy buffer setups
+    try:
+        pdf_output = pdf.output()
+        if isinstance(pdf_output, str):
+            pdf_output = pdf_output.encode('latin-1')
+    except Exception:
+        raw_buffer = pdf.buffer
+        if isinstance(raw_buffer, str):
+            pdf_output = raw_buffer.encode('latin-1')
+        else:
+            pdf_output = bytes(raw_buffer)
 
     return pdf_output
 
@@ -217,10 +225,8 @@ label { display: none !important; }
     padding: 10px 28px !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 15px rgba(217, 70, 239, 0.25);
-
     margin-top: 15px !important;
     margin-bottom: 28px !important;
-
     position: relative;
     z-index: 10;
 }
@@ -252,22 +258,18 @@ label { display: none !important; }
 .feature-text { font-weight: 500; font-size: 14px; line-height: 1.2; }
 .feature-text span { font-size: 12px; color: #64748b; display: block; }
 
-
-   #CHAT DESIGN
-
+/* CHAT DESIGN */
 .chat-container {
     background: transparent !important;
     border: none !important;
     padding: 0px !important;
     margin: 0px !important;
 }
-
 .chat-input-wrapper {
     margin-bottom: 0px !important;
     padding: 0px !important;
     width: 100% !important;
 }
-
 .chat-history-box {
     background: #060818 !important;
     border: 1px solid #1e293b !important;
@@ -277,7 +279,6 @@ label { display: none !important; }
     overflow-y: auto !important;
     margin-top: 15px !important;
 }
-
 .chat-top-bar {
     display: flex;
     justify-content: space-between;
@@ -286,7 +287,6 @@ label { display: none !important; }
     padding-bottom: 10px;
     margin-bottom: 12px;
 }
-
 .online-indicator {
     background: rgba(16, 185, 129, 0.1);
     color: #10b981;
@@ -295,7 +295,6 @@ label { display: none !important; }
     font-size: 12px;
     font-weight: 600;
 }
-
 .chat-bullet {
     color: #64748b;
     font-size: 13px;
